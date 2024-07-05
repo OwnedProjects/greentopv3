@@ -1,13 +1,20 @@
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
   Code,
   Divider,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Image,
   Spinner,
 } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
+import { Key, useEffect, useState } from 'react';
+import { constants } from '../../../config/settings';
 import { GenericError } from '../../../types/GenericError';
 import {
   MonthOrdersAmount,
@@ -15,15 +22,47 @@ import {
 } from '../_services/fetchMonthlyOrderTotalAndAmount';
 
 const TotalMonthlySalesWidget = () => {
+  const [monthName, setmonthName] = useState('');
+  const [ts, setTs] = useState<number | null>(null);
+  const currMonth = new Date().getMonth() + 1;
+  const financialYrs = [...constants.FINANCIALYR];
+  const index = financialYrs.findIndex((month) => month.month === currMonth);
+  const monthsUpToCurrMonth = financialYrs.slice(0, index + 1);
+
   const { isLoading, data, error } = useQuery<MonthOrdersAmount, GenericError>({
-    queryKey: ['order-total'],
-    queryFn: fetchMonthlyOrderTotalAndAmount,
+    queryKey: ['order-total', ts],
+    queryFn: () => fetchMonthlyOrderTotalAndAmount(ts),
+    enabled: !!(ts || ts === null),
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   if (error) {
     console.log('Sales Total Order ', error);
     if (error.status > 500) throw error;
   }
+
+  useEffect(() => {
+    if (data) {
+      setmonthName(data?.monthName);
+    }
+  }, [data]);
+
+  const handleMonthChange = (key: Key) => {
+    console.log(key);
+    const monthNm = monthsUpToCurrMonth.filter(
+      (x) => x.month.toString() === key.toString()
+    )[0].monthName;
+    if (monthNm.toLowerCase() !== monthName.toLowerCase()) {
+      //Avoid calling API if reselecting the same month
+      setmonthName(monthNm);
+      const timestamp = new Date(
+        `${key}/01/${new Date().getFullYear()}`
+      ).getTime();
+      setTs(timestamp);
+    }
+  };
 
   return (
     <>
@@ -37,22 +76,47 @@ const TotalMonthlySalesWidget = () => {
         <>
           <Card className="max-w-full">
             <CardHeader className="">
-              <div className="w-full">
-                <Image
-                  width={30}
-                  radius="none"
-                  alt="Orders"
-                  src="../../../src/assets/orders-cart.svg"
-                  className="float-left"
-                />
-                <span className="text-md uppercase font-semibold float-left pt-1 pl-3">
-                  Total
-                  <strong className="font-bold px-2 text-blue-600">
-                    {data?.monthName}
-                  </strong>
-                  Sales
-                </span>
-              </div>
+              {isLoading ? (
+                <Spinner size="sm" />
+              ) : (
+                <div className="w-full">
+                  <Image
+                    width={30}
+                    radius="none"
+                    alt="Orders"
+                    src="../../../src/assets/orders-cart.svg"
+                    className="float-left"
+                  />
+                  <span className="text-md uppercase font-semibold float-left pt-1 pl-3">
+                    Total
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          color="primary"
+                          variant="flat"
+                          className="uppercase mx-2 font-semibold text-md h-auto min-w-10"
+                        >
+                          {monthName}
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Dropdown Variants"
+                        color="primary"
+                        variant="flat"
+                        onAction={(key) => handleMonthChange(key)}
+                      >
+                        {monthsUpToCurrMonth &&
+                          monthsUpToCurrMonth.map((x) => (
+                            <DropdownItem key={x.month}>
+                              {x.monthName}
+                            </DropdownItem>
+                          ))}
+                      </DropdownMenu>
+                    </Dropdown>
+                    Sales
+                  </span>
+                </div>
+              )}
             </CardHeader>
             <Divider />
             <CardBody>

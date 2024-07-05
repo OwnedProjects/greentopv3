@@ -2,8 +2,10 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Code,
   Divider,
   Image,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -12,88 +14,100 @@ import {
   TableRow,
   getKeyValue,
 } from '@nextui-org/react';
-
-const rows = [
-  {
-    key: '1',
-    batchnm: 'Tony Reichert',
-    quantity: '123 / 456',
-  },
-  {
-    key: '2',
-    batchnm: 'Zoey Lang',
-    quantity: '123 / 456',
-  },
-  {
-    key: '3',
-    batchnm: 'Jane Fisher',
-    quantity: '123 / 456',
-  },
-  {
-    key: '4',
-    batchnm: 'William Howard',
-    quantity: '123 / 456',
-  },
-];
+import { OpenBatches, fetchOpenBatches } from '../_services/fetchOpenBatches';
+import { useQuery } from '@tanstack/react-query';
+import { GenericError } from '../../../types/GenericError';
 
 const columns = [
   {
-    key: 'batchnm',
+    key: 'batchid',
     label: 'Batch Id',
   },
   {
     key: 'quantity',
-    label: 'QUANTITY',
+    label: 'REMAINED / PRODUCED',
   },
 ];
 
-type BatchDetailsWidgetProps = {
-  openModalCallback?: () => void;
-};
+const BatchDetailsWidget: React.FC = () => {
+  const {
+    isLoading,
+    data: openbatches,
+    error,
+  } = useQuery<OpenBatches[], GenericError>({
+    queryKey: ['batches-list'],
+    queryFn: fetchOpenBatches,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
 
-const BatchDetailsWidget: React.FC<BatchDetailsWidgetProps> = () => {
+  if (error) {
+    console.log('BATCHES LIST ERROR ', error);
+    if (error.status > 500) throw error;
+  }
+
+  const opnBatch = openbatches
+    ? openbatches?.map((x) => ({
+        ...x,
+        quantity: `${x.qtyremained} / ${x.qtyproduced}`,
+      }))
+    : [];
+  const rows: OpenBatches[] = opnBatch;
+
   return (
     <>
-      <Card className="max-w-full">
-        <CardHeader className="flex gap-3">
-          <Image
-            width={30}
-            radius="none"
-            alt="Orders"
-            src="../../../src/assets/packing.svg"
-            className="float-left"
-          />
-          <span className="text-md uppercase font-semibold float-left pt-1">
-            Total
-            <strong className="font-bold px-2 text-blue-600">JUNE</strong>
-            Batches
-          </span>
-        </CardHeader>
-        <Divider />
-        <CardBody>
-          <Table color="secondary" selectionMode="single" removeWrapper>
-            <TableHeader columns={columns}>
-              {(column) => (
-                <TableColumn
-                  key={column.key}
-                  align={`${column.key === 'quantity' ? 'end' : 'start'}`}
-                >
-                  {column.label}
-                </TableColumn>
+      {error ? (
+        <>
+          <Code color="danger" className="text-balance">
+            {JSON.stringify(error.message)}
+          </Code>
+        </>
+      ) : (
+        <>
+          <Card className="max-w-full">
+            <CardHeader className="flex gap-3">
+              <Image
+                width={30}
+                radius="none"
+                alt="Orders"
+                src="../../../src/assets/packing.svg"
+                className="float-left"
+              />
+              <span className="text-md uppercase font-semibold float-left pt-1">
+                <strong className="font-bold px-2 text-blue-600">ACTIVE</strong>
+                Batches
+              </span>
+            </CardHeader>
+            <Divider />
+            <CardBody>
+              {isLoading ? (
+                <Spinner label="Loading..." />
+              ) : (
+                <Table color="secondary" removeWrapper>
+                  <TableHeader columns={columns}>
+                    {(column) => (
+                      <TableColumn key={column.key}>{column.label}</TableColumn>
+                    )}
+                  </TableHeader>
+                  <TableBody
+                    items={rows}
+                    emptyContent={'No Batches to display.'}
+                  >
+                    {(item) => (
+                      <TableRow key={item.batchmastid}>
+                        {(columnKey) => (
+                          <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                        )}
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
               )}
-            </TableHeader>
-            <TableBody items={rows}>
-              {(item) => (
-                <TableRow key={item.key}>
-                  {(columnKey) => (
-                    <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardBody>
-      </Card>
+            </CardBody>
+          </Card>
+        </>
+      )}
     </>
   );
 };

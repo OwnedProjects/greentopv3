@@ -22,6 +22,13 @@ export async function fetchWrapper<T>(
     }
 
     if (!resp.ok) {
+      if (resp.status === 404) {
+        return Promise.reject({
+          status: 404,
+          message: constants.API_NOT_FOUND,
+          statusText: resp.statusText,
+        });
+      }
       return Promise.reject({
         ...message,
         statusText: resp.statusText,

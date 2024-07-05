@@ -50,6 +50,9 @@ const FinishedProductsList: React.FC = () => {
   } = useQuery<PRODMATS[], GenericError>({
     queryKey: ['product-list'],
     queryFn: fetchProductsStockList,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   if (error) {

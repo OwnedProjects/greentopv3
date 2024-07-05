@@ -50,6 +50,9 @@ const RawMaterialList: React.FC = () => {
   } = useQuery<RawMat[], GenericError>({
     queryKey: ['raw-material-list'],
     queryFn: fetchRawMaterialStockList,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   if (error) {

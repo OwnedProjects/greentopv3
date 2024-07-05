@@ -1,16 +1,16 @@
 import { apiUrls } from '../../../config/api';
 import { fetchWrapper } from '../../../utils/fetchWrapper';
 
-export type MonthOrdersAmount = {
+export type MonthPurchasesAmount = {
   count: number;
   totalamount: string;
   monthName: string;
 };
 
-export const fetchMonthlyOrderTotalAndAmount = async (
+export const fetchMonthlyPurchasesTotalAndAmount = async (
   timestamp: number | null
-): Promise<MonthOrdersAmount> => {
-  const baseurl = apiUrls.GET_MONTHLY_ORDERS_TOTAL.replace(
+): Promise<MonthPurchasesAmount> => {
+  const baseurl = apiUrls.GET_MONTHLY_PURCHASES_TOTAL_AMOUNT.replace(
     '{ts}',
     timestamp?.toString() || ''
   );

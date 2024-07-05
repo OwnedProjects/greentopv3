@@ -30,6 +30,9 @@ const ViewStockHistory = ({ stockid, ...args }: ViewStockHistoryProps) => {
     queryKey: ['stock-history-list', stockid, sortBy],
     queryFn: () => fetchStockHistory(stockid, sortBy),
     enabled: !!sortBy || !!stockid,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
   if (error) {
     console.log('Stock History ', error);
@@ -61,10 +64,7 @@ const ViewStockHistory = ({ stockid, ...args }: ViewStockHistoryProps) => {
                 : 'Start from April'}
             </Link>
           </div>
-          <Table
-            aria-label="Example table with client async pagination"
-            {...args}
-          >
+          <Table aria-label="View Stock History" {...args}>
             <TableHeader>
               <TableColumn key="date">Date</TableColumn>
               <TableColumn key="openingstock">Opening Stock</TableColumn>

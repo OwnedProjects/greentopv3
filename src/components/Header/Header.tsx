@@ -12,12 +12,20 @@ import {
   NavbarContent,
   NavbarItem,
 } from '@nextui-org/react';
+import { Key } from 'react';
 import SearchIcon from './_widgets/SearchIcon';
-// import { AcmeLogo } from './AcmeLogo.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (key: Key) => {
+    console.log('KEY', key);
+    navigate(key as string);
+  };
+
   return (
-    <Navbar shouldHideOnScroll isBordered maxWidth="full" className="mb-2">
+    <Navbar isBordered maxWidth="full" className="mb-2">
       <NavbarBrand>
         <Image
           isZoomed
@@ -32,7 +40,7 @@ const Header = () => {
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {/* <CustomNavbar menuItems={menuItems} /> */}
         <NavbarItem isActive>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/">
             Dashboard
           </Link>
         </NavbarItem>
@@ -49,7 +57,7 @@ const Header = () => {
         <NavbarItem>
           <Dropdown>
             <DropdownTrigger>
-              <Link color="foreground" href="#">
+              <Link color="foreground" className="cursor-pointer">
                 Home
               </Link>
             </DropdownTrigger>
@@ -59,15 +67,23 @@ const Header = () => {
               itemClasses={{
                 base: 'gap-4',
               }}
+              onAction={(key) => handleNavigation(key)}
             >
               <DropdownItem
-                key="autoscaling"
-                description="ACME scales apps to meet user demand, automagically, based on load."
-                // startContent={icons.scale}
+                key="orders/neworder"
+                startContent={
+                  <Image
+                    width={30}
+                    radius="none"
+                    alt="Orders"
+                    src="../../../src/assets/orders-cart.svg"
+                    className="float-left"
+                  />
+                }
               >
-                Autoscaling
+                Orders
               </DropdownItem>
-              <DropdownItem
+              {/* <DropdownItem
                 key="usage_metrics"
                 description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
                 // startContent={icons.activity}
@@ -94,7 +110,7 @@ const Header = () => {
                 // startContent={icons.user}
               >
                 +Supreme Support
-              </DropdownItem>
+              </DropdownItem> */}
             </DropdownMenu>
           </Dropdown>
         </NavbarItem>
