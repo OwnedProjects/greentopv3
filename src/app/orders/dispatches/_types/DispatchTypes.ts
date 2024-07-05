@@ -30,4 +30,5 @@ export type OpenProductBatchType = {
   qtyproduced: string;
   status: string;
   prodname: string;
+  manufacdateDDMMYYYY: string;
 };
