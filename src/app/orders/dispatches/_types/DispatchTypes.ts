@@ -1,3 +1,9 @@
+export type DeliveryFormBatch = {
+  batchmastid: number;
+  qtyremained: number;
+  status: string;
+};
+
 export type DeliveryFormType = {
   orderno: string;
   deliveryDate: string;
@@ -7,7 +13,7 @@ export type DeliveryFormType = {
   packingKg: string;
   noOfBags: string;
   remarks: string;
-  batches: string[];
+  batches: DeliveryFormBatch[];
 };
 
 export const defaultDeliveryFormVals = {

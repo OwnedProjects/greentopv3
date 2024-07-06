@@ -15,15 +15,20 @@ import { Key, useEffect, useState } from 'react';
 import { constants } from '../../../../config/settings';
 import { GenericError } from '../../../../types/GenericError';
 import { fetchOpenProductBatches } from '../_services/fetchOpenProductBatches';
-import { OpenProductBatchType } from '../_types/DispatchTypes';
+import {
+  DeliveryFormBatch,
+  OpenProductBatchType,
+} from '../_types/DispatchTypes';
 import { inputprops } from '../../../../types/GenericInputProps';
 
 type ManufactureBatchSelectionProps = {
   prodid: number;
+  handleAddBatchToDispatch: (batch: DeliveryFormBatch) => void;
 };
 
 const ManufactureBatchSelection = ({
   prodid,
+  handleAddBatchToDispatch,
 }: ManufactureBatchSelectionProps) => {
   const [selKey, setSelKey] = useState<string | undefined>(undefined);
   const [selectedBatch, setSelectedBatch] = useState<
@@ -91,6 +96,17 @@ const ManufactureBatchSelection = ({
   const handleAddBatch = () => {
     if (validateForm()) {
       console.log('Add success');
+      if (selectedBatch) {
+        const remqty =
+          parseFloat(selectedBatch.qtyremained) - parseFloat(quantity);
+        handleAddBatchToDispatch({
+          batchmastid: selectedBatch.batchmastid,
+          qtyremained: remqty,
+          status: remqty > 0 ? 'open' : 'closed',
+        });
+      } else {
+        alert('Batch selection error, please refresh and start over');
+      }
       //TODO Add a callback to add the batch to the parent object
     }
   };

@@ -19,6 +19,7 @@ import { GenericError } from '../../../types/GenericError';
 import { inputprops } from '../../../types/GenericInputProps.ts';
 import { OpenOrderType, fetchOpenOrders } from './_services/fetchOpenOrders';
 import {
+  DeliveryFormBatch,
   DeliveryFormType,
   defaultDeliveryFormVals,
 } from './_types/DispatchTypes.ts';
@@ -64,6 +65,14 @@ const Dispatches = () => {
   const handleFormUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDeliveryForm({ ...deliveryForm, [name]: value });
+  };
+
+  const handleAddBatchToDispatch = (batch: DeliveryFormBatch) => {
+    console.log('Batch To Add', batch);
+    setDeliveryForm({
+      ...deliveryForm,
+      batches: [...deliveryForm.batches, batch],
+    });
   };
 
   useEffect(() => {
@@ -208,7 +217,10 @@ const Dispatches = () => {
           </Card>
           {selectedOrders ? (
             <>
-              <ManufactureBatchSelection prodid={selectedOrders.prodid} />
+              <ManufactureBatchSelection
+                prodid={selectedOrders.prodid}
+                handleAddBatchToDispatch={handleAddBatchToDispatch}
+              />
             </>
           ) : (
             ''
