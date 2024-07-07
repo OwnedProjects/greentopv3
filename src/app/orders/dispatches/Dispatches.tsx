@@ -124,6 +124,7 @@ const Dispatches = () => {
   };
 
   const dispatchOrder = () => {
+    // TODO: Validate Delivery Date against regex for proper date
     const errorObj: SnackbarProps = {
       message: '',
       type: 'error',
