@@ -28,4 +28,6 @@ export const constants = {
   SELF: 'SELF',
   CONSIGNEE: 'CONSIGNEE',
   SELECT_MANUFACTURE_BATCH: 'Select Manufacture Batch and Quantity',
+  SOMETHING_WENT_WRONG_REFRESH:
+    'Something went wrong, please refresh the page and try again.',
 };

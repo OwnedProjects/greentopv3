@@ -24,6 +24,10 @@ import {
   defaultDeliveryFormVals,
 } from './_types/DispatchTypes.ts';
 import ManufactureBatchSelection from './_widgets/ManufactureBatchSelection.tsx';
+import ManufactureBatchList from './_widgets/ManufactureBatchList.tsx';
+import Snackbar, {
+  SnackbarProps,
+} from '../../../components/Snackbar/Snackbar.tsx';
 
 const Dispatches = () => {
   const [selKey, setSelKey] = useState<string | undefined>();
@@ -33,8 +37,8 @@ const Dispatches = () => {
   const [deliveryForm, setDeliveryForm] = useState<DeliveryFormType>(
     defaultDeliveryFormVals
   );
-  const [deliveryDate, setDeliveryDate] = useState('');
   const [noChallan, setNoChallan] = useState(false);
+  const [snackbar, setSnackbar] = useState<SnackbarProps | null>(null);
 
   const {
     isLoading: loadingOrders,
@@ -59,7 +63,7 @@ const Dispatches = () => {
   };
 
   const handleDeliveryDateChange = (newDate: string) => {
-    setDeliveryDate(newDate);
+    setDeliveryForm({ ...deliveryForm, deliveryDate: newDate });
   };
 
   const handleFormUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +72,6 @@ const Dispatches = () => {
   };
 
   const handleAddBatchToDispatch = (batch: DeliveryFormBatch) => {
-    console.log('Batch To Add', batch);
     setDeliveryForm({
       ...deliveryForm,
       batches: [...deliveryForm.batches, batch],
@@ -80,6 +83,8 @@ const Dispatches = () => {
       const bags = (Number(selectedOrders.quantity) * 1000) / 50;
       setDeliveryForm({
         ...deliveryForm,
+        orderid: selectedOrders.orderid,
+        orderno: selectedOrders.orderno,
         packingKg: '50',
         noOfBags: JSON.stringify(bags),
       });
@@ -91,16 +96,79 @@ const Dispatches = () => {
     if (noChallan) {
       setDeliveryForm({
         ...deliveryForm,
+        noChallan: true,
         remarks: "Party's Transport",
       });
     } else {
       setDeliveryForm({
         ...deliveryForm,
+        noChallan: false,
         remarks: '',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [noChallan]);
+
+  const handleRemoveBatches = (batch: DeliveryFormBatch) => {
+    console.log(batch);
+    setDeliveryForm((prevState) => {
+      const updatedBatches = prevState.batches.filter(
+        (x: DeliveryFormBatch) => x.batchmastid !== batch.batchmastid
+      );
+
+      return {
+        ...prevState,
+        batches: updatedBatches,
+      };
+    });
+  };
+
+  const dispatchOrder = () => {
+    const errorObj: SnackbarProps = {
+      message: '',
+      type: 'error',
+      duration: 4000,
+      snackkey: new Date().getTime(),
+    };
+    if (selectedOrders) {
+      const totalSelectedBatchesQty = deliveryForm.batches.reduce(
+        (acc, x) => acc + parseFloat(x.selectedqty),
+        0
+      );
+      console.log(
+        '==>',
+        parseFloat(selectedOrders.quantity),
+        totalSelectedBatchesQty
+      );
+
+      if (totalSelectedBatchesQty && selectedOrders.quantity) {
+        if (parseFloat(selectedOrders.quantity) === totalSelectedBatchesQty) {
+          //Success
+          console.log('SUCCESS now Proceed for API Call', deliveryForm);
+        } else {
+          setSnackbar({
+            ...errorObj,
+            message:
+              'Total selected Batch Quantity is not equal to total order quantity',
+          });
+          // Error to show that both quantities does not match to suffice a dispatch
+        }
+      } else {
+        setSnackbar({
+          ...errorObj,
+          message: constants.SOMETHING_WENT_WRONG_REFRESH,
+        });
+        // Something weird happened in reducer and total is not right
+      }
+    } else {
+      // Order Not selected, which is rare but should throw an error
+      setSnackbar({
+        ...errorObj,
+        message:
+          'Please select and Order to proceed, if still same issue then refresh the page',
+      });
+    }
+  };
 
   return (
     <>
@@ -120,7 +188,7 @@ const Dispatches = () => {
             </CardHeader>
             <CardBody className="pt-1">
               {!loadingOrders && selectedOrders && (
-                <div className="float-right text-sm font-semibold text-blue-400">
+                <div className="float-right text-sm font-semibold text-indigo-600">
                   Order: {selectedOrders.quantity} tons of {selectedOrders.name}
                 </div>
               )}
@@ -153,7 +221,7 @@ const Dispatches = () => {
                   <AutoFillDateInput
                     size="sm"
                     label="Delivery Date(DD-MM-YYYY)"
-                    value={deliveryDate}
+                    value={deliveryForm.deliveryDate}
                     onChange={handleDeliveryDateChange}
                   />
                 </div>
@@ -215,17 +283,37 @@ const Dispatches = () => {
               </div>
             </CardBody>
           </Card>
-          {selectedOrders ? (
+          {selectedOrders &&
+          deliveryForm &&
+          deliveryForm.deliveryDate &&
+          deliveryForm.dcno &&
+          deliveryForm.packingKg &&
+          deliveryForm.noOfBags &&
+          deliveryForm.vehicleNo ? (
             <>
               <ManufactureBatchSelection
                 prodid={selectedOrders.prodid}
+                batches={deliveryForm.batches}
                 handleAddBatchToDispatch={handleAddBatchToDispatch}
               />
             </>
           ) : (
             ''
           )}
+          <ManufactureBatchList
+            batches={deliveryForm.batches}
+            handleRemoveBatches={handleRemoveBatches}
+            dispatchOrder={dispatchOrder}
+          />
         </>
+      )}
+      {snackbar && (
+        <Snackbar
+          snackkey={snackbar.snackkey} // Use the unique key to force re-render
+          message={snackbar.message}
+          type={snackbar.type}
+          duration={snackbar.duration}
+        />
       )}
     </>
   );

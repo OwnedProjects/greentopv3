@@ -1,14 +1,19 @@
 export type DeliveryFormBatch = {
+  batchid: string;
   batchmastid: number;
-  qtyremained: number;
+  qtyproduced: string;
+  qtyremained: string;
   status: string;
+  newqtyremained: number;
+  selectedqty: string;
 };
 
 export type DeliveryFormType = {
+  orderid: number;
   orderno: string;
   deliveryDate: string;
   dcno: string;
-  hasChallan: boolean;
+  noChallan: boolean;
   vehicleNo: string;
   packingKg: string;
   noOfBags: string;
@@ -17,10 +22,11 @@ export type DeliveryFormType = {
 };
 
 export const defaultDeliveryFormVals = {
+  orderid: -1,
   orderno: '',
   deliveryDate: '',
   dcno: '',
-  hasChallan: false,
+  noChallan: false,
   vehicleNo: '',
   packingKg: '',
   noOfBags: '',

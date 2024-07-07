@@ -20,14 +20,19 @@ import {
   OpenProductBatchType,
 } from '../_types/DispatchTypes';
 import { inputprops } from '../../../../types/GenericInputProps';
+import Snackbar, {
+  SnackbarProps,
+} from '../../../../components/Snackbar/Snackbar';
 
 type ManufactureBatchSelectionProps = {
   prodid: number;
+  batches: DeliveryFormBatch[];
   handleAddBatchToDispatch: (batch: DeliveryFormBatch) => void;
 };
 
 const ManufactureBatchSelection = ({
   prodid,
+  batches,
   handleAddBatchToDispatch,
 }: ManufactureBatchSelectionProps) => {
   const [selKey, setSelKey] = useState<string | undefined>(undefined);
@@ -39,6 +44,8 @@ const ManufactureBatchSelection = ({
   >();
   const [quantity, setQuantity] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [resetKey, setResetKey] = useState(0); // Add a reset key to force reset
+  const [snackbar, setSnackbar] = useState<SnackbarProps | null>(null);
 
   const {
     isLoading,
@@ -60,6 +67,24 @@ const ManufactureBatchSelection = ({
   }, [allBatches]);
 
   const handleBatchSelection = (key: Key | null) => {
+    // Check if Batch already exists in the dispatches.batches list, if yes don't add just return with error
+    const isBatchAlreadyAdded = batches.find(
+      (x) => x.batchmastid.toString() === key?.toString()
+    );
+    if (isBatchAlreadyAdded) {
+      setSnackbar({
+        message:
+          'This Batch is already added, please remove it from final list below.',
+        type: 'error',
+        duration: 4000,
+        snackkey: new Date().getTime(),
+      });
+      setSelKey(undefined);
+      setSelectedBatch(undefined);
+      setResetKey(resetKey + 1);
+      return;
+    }
+
     setSelKey(key as string);
     const selBatch =
       allBatches?.filter(
@@ -95,19 +120,30 @@ const ManufactureBatchSelection = ({
 
   const handleAddBatch = () => {
     if (validateForm()) {
-      console.log('Add success');
       if (selectedBatch) {
         const remqty =
           parseFloat(selectedBatch.qtyremained) - parseFloat(quantity);
         handleAddBatchToDispatch({
+          batchid: selectedBatch.batchid,
           batchmastid: selectedBatch.batchmastid,
-          qtyremained: remqty,
+          qtyproduced: selectedBatch.qtyproduced,
+          qtyremained: selectedBatch.qtyremained,
+          newqtyremained: remqty,
+          selectedqty: parseFloat(quantity).toFixed(3),
           status: remqty > 0 ? 'open' : 'closed',
         });
+        setSelKey(undefined);
+        setResetKey(resetKey + 1);
+        setQuantity('');
+        setSelectedBatch(undefined);
       } else {
-        alert('Batch selection error, please refresh and start over');
+        setSnackbar({
+          message: 'Batch selection error, please refresh and start over',
+          type: 'error',
+          duration: 3000,
+          snackkey: new Date().getTime(),
+        });
       }
-      //TODO Add a callback to add the batch to the parent object
     }
   };
   return (
@@ -134,6 +170,7 @@ const ManufactureBatchSelection = ({
                   ) : (
                     <>
                       <Autocomplete
+                        key={`batch-${resetKey}`} // Use reset key to force reset
                         defaultItems={allBatches}
                         label="Select a Batch"
                         size="sm"
@@ -194,6 +231,14 @@ const ManufactureBatchSelection = ({
             </CardBody>
           </Card>
         </>
+      )}
+      {snackbar && (
+        <Snackbar
+          snackkey={snackbar.snackkey} // Use the unique key to force re-render
+          message={snackbar.message}
+          type={snackbar.type}
+          duration={snackbar.duration}
+        />
       )}
     </>
   );

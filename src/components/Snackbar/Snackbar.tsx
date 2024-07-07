@@ -6,14 +6,14 @@ import classNames from 'classnames';
 export type SnackbarProps = {
   message: string;
   type: 'success' | 'error';
-  duration: number; // in milliseconds
+  duration?: number; // in milliseconds
   snackkey: number; //Random number passed by Parent to re-render this component
 };
 
 const Snackbar: React.FC<SnackbarProps> = ({
   message,
   type,
-  duration,
+  duration = 3000,
   snackkey,
 }) => {
   const [visible, setVisible] = useState(false);
