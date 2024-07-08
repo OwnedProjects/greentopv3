@@ -40,7 +40,7 @@ const OrdersComponent = () => {
                 src={x.menuIcon}
               />
             }
-            onClick={() => navigate(x.path)}
+            onPress={() => navigate(x.path)}
           >
             {x.menuTitle}
           </Button>

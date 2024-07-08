@@ -13,4 +13,5 @@ export const apiUrls = {
   SUBMIT_NEW_ORDER: '/orders/submitNewOrder',
   GET_OPEN_ORDERS: '/orders/getOpenOrders',
   GET_OPEN_PRODUCT_BATCHES: '/batches/getOpenProductBatches?prodid={prodid}',
+  SUBMIT_NEW_DISPATCH: '/dispatches/submitNewDispatch',
 };

@@ -222,7 +222,7 @@ const ManufactureBatchSelection = ({
                     className="max-w-[100px]"
                     size="lg"
                     isDisabled={!selectedBatch || !quantity}
-                    onClick={handleAddBatch}
+                    onPress={handleAddBatch}
                   >
                     Add Batch
                   </Button>

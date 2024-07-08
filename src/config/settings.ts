@@ -30,4 +30,9 @@ export const constants = {
   SELECT_MANUFACTURE_BATCH: 'Select Manufacture Batch and Quantity',
   SOMETHING_WENT_WRONG_REFRESH:
     'Something went wrong, please refresh the page and try again.',
+  TOTAL_BATCH_AND_ORDER_QUANTITY_MISMATCH:
+    'Total selected Batch Quantity is not equal to total order quantity',
+  INVALID_DELIVERY_DATE: 'Invalid Delivery Date',
+  SELECT_ORDER_TO_PROCEED:
+    'Please select and Order to proceed, if still same issue then refresh the page',
 };

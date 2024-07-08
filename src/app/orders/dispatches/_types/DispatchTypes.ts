@@ -44,3 +44,9 @@ export type OpenProductBatchType = {
   prodname: string;
   manufacdateDDMMYYYY: string;
 };
+
+export type NewDispatchesResponse = {
+  message: string;
+  status: number;
+  dispatchId: number;
+};

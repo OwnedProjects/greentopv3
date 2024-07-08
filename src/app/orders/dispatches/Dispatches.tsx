@@ -11,7 +11,7 @@ import {
   //   InputProps,
   Spinner,
 } from '@nextui-org/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Key, useEffect, useState } from 'react';
 import AutoFillDateInput from '../../../components/AutoFillDateInput.tsx';
 import { constants } from '../../../config/settings';
@@ -28,6 +28,8 @@ import ManufactureBatchList from './_widgets/ManufactureBatchList.tsx';
 import Snackbar, {
   SnackbarProps,
 } from '../../../components/Snackbar/Snackbar.tsx';
+import { validateDate } from '../../../utils/validateDate.ts';
+import { submitNewDispatches } from './_services/submitNewDispatches.ts';
 
 const Dispatches = () => {
   const [selKey, setSelKey] = useState<string | undefined>();
@@ -44,6 +46,7 @@ const Dispatches = () => {
     isLoading: loadingOrders,
     data: allOrders,
     error: ordersError,
+    refetch: refetchOpenOrders,
   } = useQuery<OpenOrderType[] | [], GenericError>({
     queryKey: ['dispatches-openorders-list'],
     queryFn: fetchOpenOrders,
@@ -53,6 +56,28 @@ const Dispatches = () => {
   });
 
   // console.log(loadingOrders, allOrders, ordersError);
+  const { mutate: submitNewDispatchRequest } = useMutation({
+    mutationKey: ['dispatches-submit-new-dispatches'],
+    mutationFn: submitNewDispatches,
+    onSuccess: (data) => {
+      setSnackbar({
+        message: data.message,
+        type: 'success',
+        duration: 3000,
+        snackkey: new Date().getTime(),
+      });
+      resetForm();
+    },
+    onError: (err) => {
+      console.log('ERROR', err);
+      setSnackbar({
+        message: 'Dispatch Failed',
+        type: 'error',
+        duration: 3000,
+        snackkey: new Date().getTime(),
+      });
+    },
+  });
 
   const handleOrdersSelection = (key: Key | null) => {
     // setSelectedOrders(key as string);
@@ -124,33 +149,39 @@ const Dispatches = () => {
   };
 
   const dispatchOrder = () => {
-    // TODO: Validate Delivery Date against regex for proper date
     const errorObj: SnackbarProps = {
       message: '',
       type: 'error',
       duration: 4000,
       snackkey: new Date().getTime(),
     };
+
+    if (deliveryForm && !validateDate(deliveryForm?.deliveryDate)) {
+      setSnackbar({
+        ...errorObj,
+        message: constants.INVALID_DELIVERY_DATE,
+      });
+      return;
+    }
+
     if (selectedOrders) {
       const totalSelectedBatchesQty = deliveryForm.batches.reduce(
         (acc, x) => acc + parseFloat(x.selectedqty),
         0
       );
-      console.log(
-        '==>',
-        parseFloat(selectedOrders.quantity),
-        totalSelectedBatchesQty
-      );
 
       if (totalSelectedBatchesQty && selectedOrders.quantity) {
         if (parseFloat(selectedOrders.quantity) === totalSelectedBatchesQty) {
           //Success
-          console.log('SUCCESS now Proceed for API Call', deliveryForm);
+          console.log(
+            'SUCCESS now Proceed for API Call',
+            JSON.stringify(deliveryForm)
+          );
+          submitNewDispatchRequest(deliveryForm);
         } else {
           setSnackbar({
             ...errorObj,
-            message:
-              'Total selected Batch Quantity is not equal to total order quantity',
+            message: constants.TOTAL_BATCH_AND_ORDER_QUANTITY_MISMATCH,
           });
           // Error to show that both quantities does not match to suffice a dispatch
         }
@@ -165,10 +196,17 @@ const Dispatches = () => {
       // Order Not selected, which is rare but should throw an error
       setSnackbar({
         ...errorObj,
-        message:
-          'Please select and Order to proceed, if still same issue then refresh the page',
+        message: constants.SELECT_ORDER_TO_PROCEED,
       });
     }
+  };
+
+  const resetForm = () => {
+    setSelKey(undefined);
+    setSelectedOrders(undefined);
+    setDeliveryForm(defaultDeliveryFormVals);
+    setNoChallan(false);
+    refetchOpenOrders();
   };
 
   return (

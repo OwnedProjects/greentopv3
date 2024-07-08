@@ -244,7 +244,7 @@ const AddConsignees = ({
               color={!selCust.clientid || !quantity ? 'default' : 'primary'}
               radius="none"
               className="max-w-40 uppercase"
-              onClick={handleSubmit}
+              onPress={handleSubmit}
               isDisabled={!selCust.clientid || !quantity}
             >
               Add Consignee

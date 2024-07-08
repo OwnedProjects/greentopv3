@@ -81,7 +81,7 @@ const ManufactureBatchList = ({
               color="primary"
               radius="none"
               className="max-w-60 uppercase"
-              onClick={dispatchOrder}
+              onPress={dispatchOrder}
               startContent={
                 <Image
                   width={25}

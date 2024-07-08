@@ -78,7 +78,7 @@ const AllConsignees = ({
             color="primary"
             radius="none"
             className="max-w-40 uppercase"
-            onClick={placeOrder}
+            onPress={placeOrder}
             startContent={
               <Image
                 width={25}
