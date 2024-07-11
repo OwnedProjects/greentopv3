@@ -49,7 +49,7 @@ const Dispatches = () => {
     refetch: refetchOpenOrders,
   } = useQuery<OpenOrderType[] | [], GenericError>({
     queryKey: ['dispatches-openorders-list'],
-    queryFn: fetchOpenOrders,
+    queryFn: () => fetchOpenOrders('open'),
     refetchInterval: false,
     refetchOnWindowFocus: false,
     retry: 1,

@@ -15,6 +15,7 @@ const AutoFillDateInput: React.FC<AutoFillDateInputProps> = ({
   value,
   onChange,
   size = 'sm',
+  ...rest
 }) => {
   const { formatInputDate } = useAutoFillDate();
 
@@ -34,6 +35,7 @@ const AutoFillDateInput: React.FC<AutoFillDateInputProps> = ({
       value={value}
       onChange={handleChange}
       size={size}
+      {...rest}
     />
   );
 };

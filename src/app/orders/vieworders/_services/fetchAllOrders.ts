@@ -12,10 +12,20 @@ export type OpenOrderType = {
   orderdate: string;
 };
 
-export const fetchOpenOrders = async (
-  status: string
-): Promise<OpenOrderType[] | []> => {
-  const baseURL = apiUrls.GET_ORDERS + '?status=' + status;
+type fetchAllOrdersProps = {
+  fromDt?: string;
+  toDt?: string;
+};
+
+export const fetchAllOrders = async ({
+  fromDt,
+  toDt,
+}: fetchAllOrdersProps): Promise<OpenOrderType[] | []> => {
+  console.log('==>', fromDt, toDt);
+  const baseURL =
+    fromDt && toDt
+      ? apiUrls.GET_ORDERS + `?fromDt=${fromDt}&toDt=${toDt}`
+      : apiUrls.GET_ORDERS;
   return await fetchWrapper(baseURL, {
     method: 'GET',
   });
