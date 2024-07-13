@@ -35,4 +35,5 @@ export const constants = {
   INVALID_DELIVERY_DATE: 'Invalid Delivery Date',
   SELECT_ORDER_TO_PROCEED:
     'Please select and Order to proceed, if still same issue then refresh the page',
+  CURRENT_FINANCIAL_YEAR: 'Current Financial Year',
 };

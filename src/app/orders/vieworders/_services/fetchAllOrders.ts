@@ -21,7 +21,6 @@ export const fetchAllOrders = async ({
   fromDt,
   toDt,
 }: fetchAllOrdersProps): Promise<OpenOrderType[] | []> => {
-  console.log('==>', fromDt, toDt);
   const baseURL =
     fromDt && toDt
       ? apiUrls.GET_ORDERS + `?fromDt=${fromDt}&toDt=${toDt}`

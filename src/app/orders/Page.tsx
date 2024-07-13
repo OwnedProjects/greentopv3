@@ -1,21 +1,27 @@
 import { Button, Divider, Image } from '@nextui-org/react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { ROUTE_CONSTANTS } from '../../config/routes/routeConstants';
 
 const ordersMenu = [
   {
     menuTitle: 'New Order',
     menuIcon: '../../../src/assets/orders-cart.svg',
-    path: '/orders/neworder',
+    path: `/orders/${ROUTE_CONSTANTS.NEW_ORDER}`,
   },
   {
     menuTitle: 'Dispatches',
     menuIcon: '../../../src/assets/truck.svg',
-    path: '/orders/dispatches',
+    path: `/orders/${ROUTE_CONSTANTS.DISPATCHES}`,
   },
   {
     menuTitle: 'View Orders',
     menuIcon: '../../../src/assets/checklist.svg',
-    path: '/orders/vieworders',
+    path: `/orders/${ROUTE_CONSTANTS.VIEW_ORDERS}`,
+  },
+  {
+    menuTitle: 'Order Details',
+    menuIcon: '../../../src/assets/details.svg',
+    path: `/orders/${ROUTE_CONSTANTS.ORDER_DETAILS}`,
   },
 ];
 

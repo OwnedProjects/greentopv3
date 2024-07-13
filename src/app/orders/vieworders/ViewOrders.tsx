@@ -13,10 +13,12 @@ import ViewAllOrdersTable from './_widgets/ViewAllOrdersTable.tsx';
 import { fetchAllOrders, OpenOrderType } from './_services/fetchAllOrders.ts';
 import { useQuery } from '@tanstack/react-query';
 import { GenericError } from '../../../types/GenericError.ts';
+import { constants } from '../../../config/settings.ts';
 
 const ViewOrders = () => {
   const [fromDt, setFromDt] = useState('');
   const [toDt, setToDt] = useState('');
+  const [timeline, setTimeline] = useState<string | null>(null);
 
   const {
     isLoading: loadingOrders,
@@ -39,9 +41,8 @@ const ViewOrders = () => {
     }
   };
   const handleFilterData = () => {
-    console.log('FILTER');
+    setTimeline(`${fromDt} -- ${toDt}`);
     refetchOpenOrders();
-    // TODO: Work on REFETCH
   };
 
   return (
@@ -50,7 +51,20 @@ const ViewOrders = () => {
         <CardBody className="py-3">
           <div className="grid lg:grid-cols-2 xs:grid-cols-1 gap-6">
             <div className="grid">
-              <div className="mt-3 font-semibold">Order Timeline:</div>
+              <div className="mt-3 text-sm">
+                Order Timeline:
+                {timeline ? (
+                  <span className="font-bold border-b-1 border-cyan-600 pb-1 mx-2">
+                    {timeline}
+                  </span>
+                ) : (
+                  <>
+                    <span className="font-bold border-b-1 border-cyan-600 pb-1 mx-2">
+                      {constants.CURRENT_FINANCIAL_YEAR}
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
 
             <div className="grid">
