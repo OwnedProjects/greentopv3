@@ -17,6 +17,7 @@ import { fetchOrderDetails } from './_services/fetchOrderDetails';
 import { OrderDetailsResponse } from './_types/OrderDetailsType';
 import OrderDetailsConsignees from './_widgets/OrderDetailsConsignees';
 import OrderDetailsDispatches from './_widgets/OrderDetailsDispatches';
+import OrderDetailsPayments from './_widgets/OrderDetailsPayments';
 
 const OrderDetails = () => {
   const location = useLocation();
@@ -141,6 +142,9 @@ const OrderDetails = () => {
           </div>
           <div className="my-3">
             <OrderDetailsDispatches dispatches={orderDets.dispatches} />
+          </div>
+          <div className="my-3">
+            <OrderDetailsPayments payments={orderDets.payments} />
           </div>
         </>
       ) : (

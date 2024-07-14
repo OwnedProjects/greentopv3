@@ -12,6 +12,7 @@ export type OrderDetailsResponse = {
   custname: string;
   consignees: OrderDetailsConsignee[];
   dispatches: OrderDetailsDispatch[];
+  payments: OrderDetailsPaymentsType[];
 };
 
 export type OrderDetailsConsignee = {
@@ -40,4 +41,22 @@ export type OrderDetailsDispatch = {
   batchmastid: number;
   quantity: string;
   batchid: string;
+};
+
+export type OrderDetailsPaymentsType = {
+  otaxinvoiceid: number;
+  billno: string;
+  billdt: string;
+  amount: string;
+  discount: string;
+  rate: string;
+  cgst: string;
+  sgst: string;
+  igst: string;
+  roundoff: string;
+  totalamount: string;
+  discountremarks: string;
+  csgtAmt: number;
+  isgtAmt: number;
+  billdate: string;
 };
