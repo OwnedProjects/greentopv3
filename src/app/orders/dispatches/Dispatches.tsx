@@ -243,7 +243,7 @@ const Dispatches = () => {
                       size="sm"
                       variant={!allOrders?.length ? 'flat' : 'bordered'}
                       radius="none"
-                      color="danger"
+                      color={!allOrders?.length ? 'danger' : 'default'}
                       className={
                         !allOrders?.length ? 'border-1 border-red-400' : ''
                       }
