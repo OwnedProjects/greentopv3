@@ -38,7 +38,6 @@ const Header = () => {
         </p>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        {/* <CustomNavbar menuItems={menuItems} /> */}
         <NavbarItem isActive>
           <Link color="foreground" href="/">
             Dashboard
@@ -83,34 +82,20 @@ const Header = () => {
               >
                 Orders
               </DropdownItem>
-              {/* <DropdownItem
-                key="usage_metrics"
-                description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
-                // startContent={icons.activity}
-              >
-                Usage Metrics
-              </DropdownItem>
               <DropdownItem
-                key="production_ready"
-                description="ACME runs on ACME, join us and others serving requests at web scale."
-                // startContent={icons.flash}
+                key="sales/taxinvoice"
+                startContent={
+                  <Image
+                    width={30}
+                    radius="none"
+                    alt="Sales"
+                    src="../../../src/assets/bill.svg"
+                    className="float-left"
+                  />
+                }
               >
-                Production Ready
+                Sales
               </DropdownItem>
-              <DropdownItem
-                key="99_uptime"
-                description="Applications stay on the grid with high availability and high uptime guarantees."
-                // startContent={icons.server}
-              >
-                +99% Uptime
-              </DropdownItem>
-              <DropdownItem
-                key="supreme_support"
-                description="Overcome any challenge with a supporting team ready to respond."
-                // startContent={icons.user}
-              >
-                +Supreme Support
-              </DropdownItem> */}
             </DropdownMenu>
           </Dropdown>
         </NavbarItem>

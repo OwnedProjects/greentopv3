@@ -5,6 +5,8 @@ import Dispatches from '../../app/orders/dispatches/Dispatches';
 import ViewOrders from '../../app/orders/vieworders/ViewOrders';
 import OrderDetails from '../../app/orders/orderdetails/OrderDetails';
 import { ROUTE_CONSTANTS } from './routeConstants';
+import SalesComponent from '../../app/sales/SalesComponent';
+import TaxInvoice from '../../app/sales/taxinvoice/TaxInvoice';
 
 export const homeRoutes: RouteObject[] = [
   {
@@ -26,6 +28,16 @@ export const homeRoutes: RouteObject[] = [
       {
         path: ROUTE_CONSTANTS.ORDER_DETAILS,
         element: <OrderDetails />,
+      },
+    ],
+  },
+  {
+    path: ROUTE_CONSTANTS.SALES,
+    element: <SalesComponent />,
+    children: [
+      {
+        path: ROUTE_CONSTANTS.TAX_INVOICE,
+        element: <TaxInvoice />,
       },
     ],
   },

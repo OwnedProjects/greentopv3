@@ -15,4 +15,5 @@ export const apiUrls = {
   GET_OPEN_PRODUCT_BATCHES: '/batches/getOpenProductBatches?prodid={prodid}',
   SUBMIT_NEW_DISPATCH: '/dispatches/submitNewDispatch',
   GET_ORDER_DETAILS: '/orders/getOrderDetails',
+  GET_LASTEST_BILL_ID: '/invoice/getLastestBillId',
 };

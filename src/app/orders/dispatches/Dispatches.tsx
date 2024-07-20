@@ -55,7 +55,6 @@ const Dispatches = () => {
     retry: 1,
   });
 
-  // console.log(loadingOrders, allOrders, ordersError);
   const { mutate: submitNewDispatchRequest } = useMutation({
     mutationKey: ['dispatches-submit-new-dispatches'],
     mutationFn: submitNewDispatches,
@@ -238,14 +237,21 @@ const Dispatches = () => {
                   ) : (
                     <Autocomplete
                       defaultItems={allOrders}
-                      label="Select a Order"
+                      label={
+                        !allOrders?.length ? 'NO ORDERS' : 'Select a Order'
+                      }
                       size="sm"
-                      variant="bordered"
+                      variant={!allOrders?.length ? 'flat' : 'bordered'}
                       radius="none"
+                      color="danger"
+                      className={
+                        !allOrders?.length ? 'border-1 border-red-400' : ''
+                      }
                       selectedKey={selKey}
                       onSelectionChange={handleOrdersSelection}
                       isRequired
                       fullWidth
+                      isDisabled={!allOrders?.length}
                     >
                       {(order) => (
                         <AutocompleteItem key={order.orderid}>
