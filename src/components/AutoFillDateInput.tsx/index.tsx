@@ -1,7 +1,8 @@
 // AutoFillDateInput.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@nextui-org/react';
 import useAutoFillDate from '../../hooks/useAutoFillDate';
+import { validateDate } from '../../utils/validateDate';
 
 type AutoFillDateInputProps = {
   label: string;
@@ -18,10 +19,19 @@ const AutoFillDateInput: React.FC<AutoFillDateInputProps> = ({
   ...rest
 }) => {
   const { formatInputDate } = useAutoFillDate();
+  const [invalidDate, setInvalidDate] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const formattedDate = formatInputDate(event.target.value);
     onChange(formattedDate);
+  };
+
+  const handleBlur = () => {
+    if (!validateDate(value)) {
+      setInvalidDate(true);
+    } else {
+      setInvalidDate(false);
+    }
   };
 
   return (
@@ -34,7 +44,10 @@ const AutoFillDateInput: React.FC<AutoFillDateInputProps> = ({
       isRequired
       value={value}
       onChange={handleChange}
+      onBlur={handleBlur}
       size={size}
+      isInvalid={!!invalidDate}
+      errorMessage="Invalid Date"
       {...rest}
     />
   );
