@@ -7,7 +7,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { OpenOrderType } from '../_services/fetchAllOrders';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from '../../../../config/routes/routeConstants';

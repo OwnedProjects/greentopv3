@@ -1,4 +1,4 @@
-import { InputProps } from '@nextui-org/react';
+import { InputProps } from "@heroui/react";
 
 export const inputprops: InputProps = {
   radius: 'none',

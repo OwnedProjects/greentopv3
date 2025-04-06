@@ -1,4 +1,4 @@
-import { Button, Divider, Image } from '@nextui-org/react';
+import { Button, Divider, Image } from "@heroui/react";
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from '../../config/routes/routeConstants';
 

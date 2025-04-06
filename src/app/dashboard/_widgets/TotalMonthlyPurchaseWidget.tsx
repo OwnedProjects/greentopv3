@@ -11,7 +11,7 @@ import {
   DropdownTrigger,
   Image,
   Spinner,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { useQuery } from '@tanstack/react-query';
 import { Key, useEffect, useState } from 'react';
 import { constants } from '../../../config/settings';

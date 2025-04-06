@@ -1,6 +1,6 @@
 // AutoFillDateInput.tsx
 import React, { useState } from 'react';
-import { Input } from '@nextui-org/react';
+import { Input } from "@heroui/react";
 import useAutoFillDate from '../../hooks/useAutoFillDate';
 import { validateDate } from '../../utils/validateDate';
 

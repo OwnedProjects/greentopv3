@@ -7,7 +7,7 @@ import {
   Image,
   Input,
   Spinner,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';

@@ -6,7 +6,7 @@ import {
   Checkbox,
   Input,
   InputProps,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import React, { useState, useCallback, useEffect } from 'react';
 
 import { CustomerTypes } from '../../../customer/_types/CustomerTypes';

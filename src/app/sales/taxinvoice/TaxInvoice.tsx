@@ -11,7 +11,7 @@ import {
   Input,
   Link,
   Spinner,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { useQuery } from '@tanstack/react-query';
 import { Key, useEffect, useState } from 'react';
 import AutoFillDateInput from '../../../components/AutoFillDateInput.tsx';

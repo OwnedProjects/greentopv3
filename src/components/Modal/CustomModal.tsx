@@ -8,7 +8,7 @@ import {
   ModalHeader,
   ModalProps,
   useDisclosure,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { useEffect } from 'react';
 
 type CustomModalProps = {

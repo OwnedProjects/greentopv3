@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
   getKeyValue,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { ConsigneeForm, NewOrderType } from '../_types/NewOrderTypes';
 
 type AllConsigneesProps = {

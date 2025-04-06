@@ -6,7 +6,7 @@ import {
   Divider,
   Image,
   Spinner,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import AutoFillDateInput from '../../../components/AutoFillDateInput.tsx';
 import { useState } from 'react';
 import ViewAllOrdersTable from './_widgets/ViewAllOrdersTable.tsx';

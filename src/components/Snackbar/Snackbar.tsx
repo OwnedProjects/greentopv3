@@ -1,6 +1,6 @@
 // Snackbar.tsx
 import { useState, useEffect } from 'react';
-import { Card } from '@nextui-org/react';
+import { Card } from "@heroui/react";
 import classNames from 'classnames';
 
 export type SnackbarProps = {

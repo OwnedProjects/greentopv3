@@ -8,7 +8,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { OrderDetailsConsignee } from '../_types/OrderDetailsType';
 
 type OrderDetailsConsigneesProps = {

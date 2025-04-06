@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
   getKeyValue,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { OpenBatches, fetchOpenBatches } from '../_services/fetchOpenBatches';
 import { useQuery } from '@tanstack/react-query';
 import { GenericError } from '../../../types/GenericError';

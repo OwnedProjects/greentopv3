@@ -23,14 +23,14 @@ export type DeliveryFormType = {
 
 export const defaultDeliveryFormVals = {
   orderid: -1,
-  orderno: '',
-  deliveryDate: '',
-  dcno: '',
+  orderno: "",
+  deliveryDate: "",
+  dcno: "",
   noChallan: false,
-  vehicleNo: '',
-  packingKg: '',
-  noOfBags: '',
-  remarks: '',
+  vehicleNo: "",
+  packingKg: "",
+  noOfBags: "",
+  remarks: "",
   batches: [],
 };
 
