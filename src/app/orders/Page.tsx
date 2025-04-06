@@ -1,26 +1,26 @@
 import { Button, Divider, Image } from "@heroui/react";
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTE_CONSTANTS } from '../../config/routes/routeConstants';
+import { Outlet, useLocation, useNavigate } from "react-router";
+import { ROUTE_CONSTANTS } from "../../config/routes/routeConstants";
 
 const ordersMenu = [
   {
-    menuTitle: 'New Order',
-    menuIcon: '../../../src/assets/orders-cart.svg',
+    menuTitle: "New Order",
+    menuIcon: "../../../src/assets/orders-cart.svg",
     path: `/orders/${ROUTE_CONSTANTS.NEW_ORDER}`,
   },
   {
-    menuTitle: 'Dispatches',
-    menuIcon: '../../../src/assets/truck.svg',
+    menuTitle: "Dispatches",
+    menuIcon: "../../../src/assets/truck.svg",
     path: `/orders/${ROUTE_CONSTANTS.DISPATCHES}`,
   },
   {
-    menuTitle: 'View Orders',
-    menuIcon: '../../../src/assets/checklist.svg',
+    menuTitle: "View Orders",
+    menuIcon: "../../../src/assets/checklist.svg",
     path: `/orders/${ROUTE_CONSTANTS.VIEW_ORDERS}`,
   },
   {
-    menuTitle: 'Order Details',
-    menuIcon: '../../../src/assets/details.svg',
+    menuTitle: "Order Details",
+    menuIcon: "../../../src/assets/details.svg",
     path: `/orders/${ROUTE_CONSTANTS.ORDER_DETAILS}`,
   },
 ];
@@ -35,7 +35,7 @@ const OrdersComponent = () => {
           <Button
             color="primary"
             size="sm"
-            variant={`${x.path === location.pathname ? 'solid' : 'ghost'}`}
+            variant={`${x.path === location.pathname ? "solid" : "ghost"}`}
             radius="none"
             key={i}
             startContent={

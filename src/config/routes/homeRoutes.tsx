@@ -1,12 +1,12 @@
-import { RouteObject } from 'react-router-dom';
-import OrdersComponent from '../../app/orders/Page';
-import CreateNewOrder from '../../app/orders/neworder/CreateNewOrder';
-import Dispatches from '../../app/orders/dispatches/Dispatches';
-import ViewOrders from '../../app/orders/vieworders/ViewOrders';
-import OrderDetails from '../../app/orders/orderdetails/OrderDetails';
-import { ROUTE_CONSTANTS } from './routeConstants';
-import SalesComponent from '../../app/sales/SalesComponent';
-import TaxInvoice from '../../app/sales/taxinvoice/TaxInvoice';
+import { RouteObject } from "react-router";
+import OrdersComponent from "../../app/orders/Page";
+import CreateNewOrder from "../../app/orders/neworder/CreateNewOrder";
+import Dispatches from "../../app/orders/dispatches/Dispatches";
+import ViewOrders from "../../app/orders/vieworders/ViewOrders";
+import OrderDetails from "../../app/orders/orderdetails/OrderDetails";
+import { ROUTE_CONSTANTS } from "./routeConstants";
+import SalesComponent from "../../app/sales/SalesComponent";
+import TaxInvoice from "../../app/sales/taxinvoice/TaxInvoice";
 
 export const homeRoutes: RouteObject[] = [
   {

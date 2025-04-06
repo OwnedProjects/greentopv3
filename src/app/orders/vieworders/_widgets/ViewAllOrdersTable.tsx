@@ -8,9 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import { OpenOrderType } from '../_services/fetchAllOrders';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE_CONSTANTS } from '../../../../config/routes/routeConstants';
+import { OpenOrderType } from "../_services/fetchAllOrders";
+import { useNavigate } from "react-router";
+import { ROUTE_CONSTANTS } from "../../../../config/routes/routeConstants";
 
 type ViewAllOrdersTableProps = {
   allOrders: [] | OpenOrderType[] | undefined;
@@ -24,8 +24,8 @@ const ViewAllOrdersTable = ({ allOrders }: ViewAllOrdersTableProps) => {
   );
 
   const handleOrderDetails = (ono: string) => {
-    console.log('Order No', ono);
-    navigate('/orders/' + ROUTE_CONSTANTS.ORDER_DETAILS, {
+    console.log("Order No", ono);
+    navigate("/orders/" + ROUTE_CONSTANTS.ORDER_DETAILS, {
       state: { oNo: ono },
     });
   };
@@ -35,14 +35,14 @@ const ViewAllOrdersTable = ({ allOrders }: ViewAllOrdersTableProps) => {
       <div className="pt-2">
         {quantity ? (
           <div className="text-right pb-2 text-sm font-bold text-gray-500 mr-5 pr-5">
-            Total Quantity:{' '}
+            Total Quantity:{" "}
             <span className="text-purple-600 underline">
               {quantity?.toFixed(3)}
-            </span>{' '}
+            </span>{" "}
             Tons
           </div>
         ) : (
-          ''
+          ""
         )}
         <Table aria-label="View All Orders Table" radius="none" removeWrapper>
           <TableHeader>
@@ -55,12 +55,12 @@ const ViewAllOrdersTable = ({ allOrders }: ViewAllOrdersTableProps) => {
             </TableColumn>
             <TableColumn key="status">Order Status</TableColumn>
           </TableHeader>
-          <TableBody items={allOrders} emptyContent={'No Orders to display.'}>
+          <TableBody items={allOrders} emptyContent={"No Orders to display."}>
             {(item) => (
               <TableRow key={item?.orderid}>
                 {(columnKey) =>
-                  columnKey !== 'quantity' ? (
-                    columnKey === 'orderno' ? (
+                  columnKey !== "quantity" ? (
+                    columnKey === "orderno" ? (
                       <TableCell className="min-w-28 capitalize">
                         <Link
                           underline="hover"

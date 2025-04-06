@@ -12,27 +12,27 @@ import {
   Link,
   Spinner,
 } from "@heroui/react";
-import { useQuery } from '@tanstack/react-query';
-import { Key, useEffect, useState } from 'react';
-import AutoFillDateInput from '../../../components/AutoFillDateInput.tsx';
-import { constants } from '../../../config/settings';
-import { GenericError } from '../../../types/GenericError';
-import { inputprops } from '../../../types/GenericInputProps';
+import { useQuery } from "@tanstack/react-query";
+import { Key, useEffect, useState } from "react";
+import AutoFillDateInput from "../../../components/AutoFillDateInput.tsx";
+import { constants } from "../../../config/settings";
+import { GenericError } from "../../../types/GenericError";
+import { inputprops } from "../../../types/GenericInputProps";
 import {
   fetchOpenOrders,
   OpenOrderType,
-} from '../../orders/dispatches/_services/fetchOpenOrders';
+} from "../../orders/dispatches/_services/fetchOpenOrders";
 import {
   fetchLastestBillId,
   LastestBillNumberType,
-} from './_services/fetchLastestBillId.ts';
+} from "./_services/fetchLastestBillId.ts";
 import {
   defaultTaxInvoiceFormVal,
   TaxInvoiceType,
-} from './_types/TaxInvoiceType.ts';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE_CONSTANTS } from '../../../config/routes/routeConstants.ts';
-import { validateDate } from '../../../utils/validateDate.ts';
+} from "./_types/TaxInvoiceType.ts";
+import { useNavigate } from "react-router";
+import { ROUTE_CONSTANTS } from "../../../config/routes/routeConstants.ts";
+import { validateDate } from "../../../utils/validateDate.ts";
 
 type ValidationRule = {
   required?: boolean;
@@ -57,8 +57,8 @@ const TaxInvoice = () => {
     data: allOrders,
     error: ordersError,
   } = useQuery<OpenOrderType[] | [], GenericError>({
-    queryKey: ['taxinvoice-openorders-list'],
-    queryFn: () => fetchOpenOrders('dispatched'),
+    queryKey: ["taxinvoice-openorders-list"],
+    queryFn: () => fetchOpenOrders("dispatched"),
     refetchInterval: false,
     refetchOnWindowFocus: false,
     retry: 1,
@@ -69,7 +69,7 @@ const TaxInvoice = () => {
     data: latestBillNo,
     error: billnoError,
   } = useQuery<LastestBillNumberType, GenericError>({
-    queryKey: ['taxtinvoice-getbill-no'],
+    queryKey: ["taxtinvoice-getbill-no"],
     queryFn: () => fetchLastestBillId(),
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -93,38 +93,38 @@ const TaxInvoice = () => {
   };
 
   const validationRules: Record<keyof TaxInvoiceType, ValidationRule> = {
-    invoiceno: { required: true, customMessage: 'Invoice Number is required' },
-    invoicedt: { required: true, customMessage: 'Invoice Date is required' },
-    rate: { required: true, customMessage: 'Rate is required' },
-    amount: { required: true, customMessage: 'Amount is required' },
+    invoiceno: { required: true, customMessage: "Invoice Number is required" },
+    invoicedt: { required: true, customMessage: "Invoice Date is required" },
+    rate: { required: true, customMessage: "Rate is required" },
+    amount: { required: true, customMessage: "Amount is required" },
     discount: {
       required: true,
-      customMessage: 'Discount should be 0 is not applicable',
+      customMessage: "Discount should be 0 is not applicable",
     },
     amtb4gst: {
       required: true,
-      customMessage: 'Amount before GST cannot be empty',
+      customMessage: "Amount before GST cannot be empty",
     },
     cgst: {
       required: true,
-      customMessage: 'CGST should be 0 if not applicable',
+      customMessage: "CGST should be 0 if not applicable",
     },
     sgst: {
       required: true,
-      customMessage: 'SGST should be 0 if not applicable',
+      customMessage: "SGST should be 0 if not applicable",
     },
     igst: {
       required: true,
-      customMessage: 'IGST should be 0 if not applicable',
+      customMessage: "IGST should be 0 if not applicable",
     },
     roundoff: {
       required: true,
-      customMessage: 'Round off cannot not be empty',
+      customMessage: "Round off cannot not be empty",
     },
-    totalamt: { required: true, customMessage: 'Total Amount is required' },
+    totalamt: { required: true, customMessage: "Total Amount is required" },
     discountremarks: {
       required: true,
-      customMessage: 'Discount Remarks are required',
+      customMessage: "Discount Remarks are required",
     },
   };
 
@@ -151,7 +151,7 @@ const TaxInvoice = () => {
     if (latestBillNo) {
       setInvoiceData({
         ...invoiceData,
-        ['invoiceno']: latestBillNo?.billno.toString() || '',
+        ["invoiceno"]: latestBillNo?.billno.toString() || "",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,12 +160,12 @@ const TaxInvoice = () => {
   const handleSaveBill = () => {
     if (validateDate(invoiceData.invoicedt)) {
       if (validateForm(invoiceData)) {
-        console.log('Form Valid');
+        console.log("Form Valid");
       } else {
-        console.log('Form has errors:', errors);
+        console.log("Form has errors:", errors);
       }
     } else {
-      console.log('INvalid Date');
+      console.log("INvalid Date");
     }
   };
 
@@ -191,7 +191,7 @@ const TaxInvoice = () => {
               {!loadingOrders && selectedOrders && (
                 <>
                   <div className="float-right text-sm font-semibold text-indigo-600 w-1/2">
-                    Order: {selectedOrders.quantity} tons of{' '}
+                    Order: {selectedOrders.quantity} tons of{" "}
                     {selectedOrders.name}
                   </div>
                 </>
@@ -205,14 +205,14 @@ const TaxInvoice = () => {
                       <Autocomplete
                         defaultItems={allOrders}
                         label={
-                          !allOrders?.length ? 'NO ORDERS' : 'Select a Order'
+                          !allOrders?.length ? "NO ORDERS" : "Select a Order"
                         }
                         size="sm"
-                        variant={!allOrders?.length ? 'flat' : 'bordered'}
+                        variant={!allOrders?.length ? "flat" : "bordered"}
                         radius="none"
-                        color={!allOrders?.length ? 'danger' : 'default'}
+                        color={!allOrders?.length ? "danger" : "default"}
                         className={
-                          !allOrders?.length ? 'border-1 border-red-400' : ''
+                          !allOrders?.length ? "border-1 border-red-400" : ""
                         }
                         selectedKey={selKey}
                         onSelectionChange={handleOrdersSelection}
@@ -256,7 +256,7 @@ const TaxInvoice = () => {
                       </span>
                     </>
                   ) : (
-                    ''
+                    ""
                   )}
                 </div>
                 {selectedOrders ? (
@@ -267,7 +267,7 @@ const TaxInvoice = () => {
                       onClick={() =>
                         navigate(
                           ROUTE_CONSTANTS.ORDERS +
-                            '/' +
+                            "/" +
                             ROUTE_CONSTANTS.ORDER_DETAILS,
                           {
                             state: { oNo: selectedOrders?.orderno },

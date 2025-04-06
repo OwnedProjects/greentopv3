@@ -8,21 +8,21 @@ import {
   Input,
   Spinner,
 } from "@heroui/react";
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { GenericError } from '../../../types/GenericError';
-import { inputprops } from '../../../types/GenericInputProps';
-import { fetchOrderDetails } from './_services/fetchOrderDetails';
-import { OrderDetailsResponse } from './_types/OrderDetailsType';
-import OrderDetailsConsignees from './_widgets/OrderDetailsConsignees';
-import OrderDetailsDispatches from './_widgets/OrderDetailsDispatches';
-import OrderDetailsPayments from './_widgets/OrderDetailsPayments';
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { GenericError } from "../../../types/GenericError";
+import { inputprops } from "../../../types/GenericInputProps";
+import { fetchOrderDetails } from "./_services/fetchOrderDetails";
+import { OrderDetailsResponse } from "./_types/OrderDetailsType";
+import OrderDetailsConsignees from "./_widgets/OrderDetailsConsignees";
+import OrderDetailsDispatches from "./_widgets/OrderDetailsDispatches";
+import OrderDetailsPayments from "./_widgets/OrderDetailsPayments";
 
 const OrderDetails = () => {
   const location = useLocation();
-  const [orderNo, setOrderNo] = useState<string>('');
-  const [searchOrderNo, setSearchOrderNo] = useState<string>('');
+  const [orderNo, setOrderNo] = useState<string>("");
+  const [searchOrderNo, setSearchOrderNo] = useState<string>("");
 
   const { oNo } = location.state || {};
 
@@ -38,9 +38,9 @@ const OrderDetails = () => {
     data: orderDets,
     error: orderDetError,
   } = useQuery<OrderDetailsResponse, GenericError>({
-    queryKey: ['orderdetails-order', orderNo],
+    queryKey: ["orderdetails-order", orderNo],
     queryFn: () => fetchOrderDetails(orderNo),
-    enabled: searchOrderNo !== '',
+    enabled: searchOrderNo !== "",
     refetchInterval: false,
     refetchOnWindowFocus: false,
     retry: 1,
@@ -125,7 +125,7 @@ const OrderDetails = () => {
                   </div>
                 </>
               ) : (
-                ''
+                ""
               )}
             </>
           )}

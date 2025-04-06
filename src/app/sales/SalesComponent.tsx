@@ -1,11 +1,11 @@
 import { Button, Divider, Image } from "@heroui/react";
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTE_CONSTANTS } from '../../config/routes/routeConstants';
+import { Outlet, useLocation, useNavigate } from "react-router";
+import { ROUTE_CONSTANTS } from "../../config/routes/routeConstants";
 
 const salesMenu = [
   {
-    menuTitle: 'Tax Invoice',
-    menuIcon: '../../../src/assets/bill.svg',
+    menuTitle: "Tax Invoice",
+    menuIcon: "../../../src/assets/bill.svg",
     path: `/sales/${ROUTE_CONSTANTS.TAX_INVOICE}`,
   },
 ];
@@ -20,7 +20,7 @@ const SalesComponent = () => {
           <Button
             color="primary"
             size="sm"
-            variant={`${x.path === location.pathname ? 'solid' : 'ghost'}`}
+            variant={`${x.path === location.pathname ? "solid" : "ghost"}`}
             radius="none"
             key={i}
             startContent={

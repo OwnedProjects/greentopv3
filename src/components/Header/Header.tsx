@@ -13,7 +13,7 @@ import {
   NavbarItem,
 } from "@heroui/react";
 import { Key } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import SearchIcon from "./_widgets/SearchIcon";
 
 // ✅ Recommended: import images instead of relative path strings
